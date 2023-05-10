@@ -1,0 +1,74 @@
+import Event from "../models/eventModel.js";
+
+export function addEvent(req, res, next) {
+  const event = new Event(req.body);
+  event
+    .save()
+    .then((response) => {
+      return res.status(200).send({ status: 200, message: response });
+    })
+    .catch((error) => {
+      res
+        .status(error.status || 500)
+        .send({ status: error.status, message: error.message });
+      next(error);
+    });
+}
+
+export function getEvents(req, res, next) {
+  Event.find({})
+    .then((response) => {
+      res.status(200).send({ status: 200, message: response });
+    })
+    .catch((error) => {
+      res
+        .status(error.status || 500)
+        .send({ status: error.status, message: error.message });
+      next(error);
+    });
+}
+
+export function getEvent(req, res, next) {
+  const { id } = req.params;
+  Event.findOne({ _id: id })
+    .then((response) => {
+      if (!response) {
+        res.status(404).send({ status: 404, message: "Event not found" });
+      }
+      res.status(200).send({ status: 200, message: response });
+    })
+    .catch((error) => {
+      res
+        .status(error.status || 500)
+        .send({ status: error.status, message: error.message });
+      next(error);
+    });
+}
+
+export function editEvent(req, res, next) {
+  const { id } = req.params;
+  Event.findOneAndUpdate({ _id: id }, req.body)
+    .then((response) => {
+      res.status(200).send({ status: 200, message: response });
+    })
+    .catch((error) => {
+      res
+        .status(error.status || 500)
+        .send({ status: error.status, message: error.message });
+      next(error);
+    });
+}
+
+export function deleteEvent(req, res, next) {
+  const { id } = req.params;
+  Event.findOneAndDelete({ _id: id })
+    .then((response) => {
+      res.status(200).send({ status: 200, message: response });
+    })
+    .catch((error) => {
+      res
+        .status(error.status || 500)
+        .send({ status: error.status, message: error.message });
+      next(error);
+    });
+}
