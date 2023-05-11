@@ -1,3 +1,4 @@
+import mongoosePaginate from 'mongoose-paginate-v2'
 import mongoose from "mongoose";
 const { Schema, model } = mongoose;
 
@@ -6,6 +7,9 @@ const profileSchema = new Schema(
     about: {
       type: String,
       max: [400, "max about is 400 characters"],
+    },
+    media:{
+      type: String,
     },
     date: {
       type: Date,
@@ -36,6 +40,6 @@ const profileSchema = new Schema(
 profileSchema.pre(["find", "findOne"], function () {
   this.populate("user");
 });
-
+profileSchema.plugin(mongoosePaginate)
 const Profile=model("Profile",profileSchema);
 export default Profile;

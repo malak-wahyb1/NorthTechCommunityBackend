@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import mongoosePaginate from 'mongoose-paginate-v2'
 const { Schema, model } = mongoose;
 
 const notificationSchema = new Schema(
@@ -19,9 +20,10 @@ const notificationSchema = new Schema(
     versionKey: false,
   }
 );
-commentSchema.pre(["find", "findOne"], function () {
+notificationSchema.pre(["find", "findOne"], function () {
   this.populate("user");
 });
+notificationSchema.plugin(mongoosePaginate)
 
 const Notification = model("Notification", notificationSchema);
 export default Notification;

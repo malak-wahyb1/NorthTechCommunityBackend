@@ -16,7 +16,9 @@ export function addProfile(req, res, next) {
 }
 
 export function getProfiles(req, res, next) {
-  Profile.find({})
+  const pageNumber = req.query.page||1;
+  const pageSize = req.query.pageSize||10;
+  Profile.paginate({},{page:pageNumber, limit:pageSize})
     .then((response) => {
       res.status(200).send({ status: 200, message: response });
     })

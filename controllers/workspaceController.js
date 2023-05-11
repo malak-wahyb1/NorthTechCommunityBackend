@@ -15,7 +15,9 @@ export function addWorkspace(req, res, next) {
 }
 
 export function getWorkspaces(req, res, next) {
-  Workspace.find({})
+  const pageNumber = req.query.page||1;
+  const pageSize = req.query.pageSize||10;
+  Workspace.paginate({},{page:pageNumber, limit:pageSize})
     .then((response) => {
       res.status(200).send({ status: 200, message: response });
     })
@@ -48,6 +50,8 @@ export function editWorkspace(req, res, next) {
   const { id } = req.params;
   Workspace.findOneAndUpdate({ _id: id }, req.body)
     .then((response) => {
+      if(!response) res.status(404).send({ status: 404, message:"not found"})
+      if (req.body.media) fs.unlinkSync(response.media);
       res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
@@ -62,6 +66,7 @@ export function deleteWorkspace(req, res, next) {
   const { id } = req.params;
   Workspace.findOneAndDelete({ _id: id })
     .then((response) => {
+      fs.unlinkSync(response.media);
       res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {

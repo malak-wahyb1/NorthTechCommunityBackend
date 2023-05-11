@@ -1,6 +1,7 @@
 import Comment from "../models/commentModel.js";
 
 export function addComment(req, res, next) {
+
   const comment = new Comment(req.body);
   comment
     .save()
@@ -16,7 +17,9 @@ export function addComment(req, res, next) {
 }
 
 export function getComments(req, res, next) {
-  Comment.find({})
+  const pageNumber = req.query.page||1;
+  const pageSize = req.query.pageSize||10;
+  Comment.paginate({},{page:pageNumber, limit:pageSize})
     .then((response) => {
       res.status(200).send({ status: 200, message: response });
     })

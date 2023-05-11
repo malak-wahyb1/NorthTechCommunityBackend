@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import mongoosePaginate from 'mongoose-paginate-v2'
 const { Schema, model } = mongoose;
 
 const eventSchema = new Schema(
@@ -48,5 +49,6 @@ const eventSchema = new Schema(
 eventSchema.pre(['find','findOne'],function(){
   this.populate(['attend','speaker']);
     })
+    eventSchema.plugin(mongoosePaginate)
 const Event=model("Event",eventSchema);
 export default Event;

@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import mongoosePaginate from 'mongoose-paginate-v2'
+
 const { Schema, model } = mongoose;
 
 const commentSchema = new Schema(
@@ -29,6 +31,6 @@ const commentSchema = new Schema(
   commentSchema.pre(['find','findOne'],function(){
 this.populate(['user','post']);
   })
-
+commentSchema.plugin(mongoosePaginate)
 const Comment=model("Comment",commentSchema);
 export default Comment;

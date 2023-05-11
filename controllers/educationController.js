@@ -16,7 +16,9 @@ export function addEducation(req, res, next) {
 }
 
 export function getEducations(req, res, next) {
-  Education.find({})
+  const pageNumber = req.query.page||1;
+  const pageSize = req.query.pageSize||10;
+  Education.paginate({},{page:pageNumber, limit:pageSize})
     .then((response) => {
       res.status(200).send({ status: 200, message: response });
     })

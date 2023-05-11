@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import mongoosePaginate from 'mongoose-paginate-v2'
 const { Schema, model } = mongoose;
 
 const experienceSchema = new Schema(
@@ -48,6 +49,7 @@ ref:"Profile"
 experienceSchema.pre(["find", "findOne"], function () {
   this.populate("profile");
 });
-
+experienceSchema.plugin(mongoosePaginate)
 const Experience=model("Experience",experienceSchema);
+
 export default Experience;

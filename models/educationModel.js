@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import mongoosePaginate from 'mongoose-paginate-v2'
 const { Schema, model } = mongoose;
 
 const educationSchema = new Schema(
@@ -39,5 +40,6 @@ const educationSchema = new Schema(
 educationSchema.pre(["find", "findOne"], function () {
   this.populate("profile");
 });
+educationSchema.plugin(mongoosePaginate)
 const Education = model("Education", educationSchema);
 export default Education;

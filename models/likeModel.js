@@ -24,5 +24,6 @@ likeSchema.pre(["find"], function () {
   this.populate("user").populate("post");
 });
 
+
 const Like = model("Like", likeSchema);
 export default Like;

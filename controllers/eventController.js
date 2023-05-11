@@ -16,7 +16,11 @@ export function addEvent(req, res, next) {
 }
 
 export function getEvents(req, res, next) {
-  Event.find({})
+  const pageNumber = req.query.page||1;
+  const pageSize = req.query.pageSize||10;
+  const search = req.query.search||"";
+  
+  Event.paginate({event_name:{$regex:search}},{page:pageNumber, limit:pageSize})
     .then((response) => {
       res.status(200).send({ status: 200, message: response });
     })
@@ -49,6 +53,8 @@ export function editEvent(req, res, next) {
   const { id } = req.params;
   Event.findOneAndUpdate({ _id: id }, req.body)
     .then((response) => {
+      if(!response) res.status(404).send({ status: 404, message:"not found"})
+      if (req.body.media) fs.unlinkSync(response.media);
       res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
@@ -63,6 +69,7 @@ export function deleteEvent(req, res, next) {
   const { id } = req.params;
   Event.findOneAndDelete({ _id: id })
     .then((response) => {
+      fs.unlinkSync(response.media);
       res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {

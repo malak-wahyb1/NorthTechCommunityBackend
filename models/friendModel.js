@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import mongoosePaginate from 'mongoose-paginate-v2'
 const { Schema, model } = mongoose;
 
 const friendSchema = new Schema(
@@ -23,6 +24,6 @@ const friendSchema = new Schema(
 friendSchema.pre(["find", "findOne"], function () {
   this.populate(["user","friend"]);
 });
-
+friendSchema.plugin(mongoosePaginate)
 const Friend = model("Friend", friendSchema);
 export default Friend;

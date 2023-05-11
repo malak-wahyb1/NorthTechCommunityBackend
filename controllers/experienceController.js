@@ -16,7 +16,9 @@ export function addExperience(req, res, next) {
 }
 
 export function getExperiences(req, res, next) {
-  Experience.find({})
+  const pageNumber = req.query.page||1;
+  const pageSize = req.query.pageSize||10;
+  Experience.paginate({},{page:pageNumber, limit:pageSize})
     .then((response) => {
       res.status(200).send({ status: 200, message: response });
     })

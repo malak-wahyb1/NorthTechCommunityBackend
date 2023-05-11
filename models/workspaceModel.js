@@ -1,3 +1,4 @@
+import mongoosePaginate from "mongoose-paginate-v2";
 import mongoose from "mongoose";
 const { Schema, model } = mongoose;
 
@@ -14,15 +15,14 @@ const workspaceSchema = new Schema(
     },
     description: {
       type: String,
-     max:[300,"full"]
+      max: [300, "full"],
     },
-    user:{
-      type:Schema.Types.ObjectId,
-      ref:"User"
-    }
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
   },
   {
-   
     timestamps: {
       createdAt: "created_at",
       updatedAt: "updated_at",
@@ -30,8 +30,9 @@ const workspaceSchema = new Schema(
     versionKey: false,
   }
 );
-workspaceSchema.pre(['find','findOne'],function(){
-  this.populate('user');
-    })
-const Workspace=model("Workspace",workspaceSchema);
+workspaceSchema.pre(["find", "findOne"], function () {
+  this.populate("user");
+});
+workspaceSchema.plugin(mongoosePaginate);
+const Workspace = model("Workspace", workspaceSchema);
 export default Workspace;

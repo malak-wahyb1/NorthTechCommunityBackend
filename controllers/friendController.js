@@ -2,6 +2,7 @@ import Friend from "../models/friendModel.js";
 
 export function addFriend(req, res, next) {
   const friend = new Friend(req.body);
+
   friend
     .save()
     .then((response) => {
@@ -16,7 +17,11 @@ export function addFriend(req, res, next) {
 }
 
 export function getFriends(req, res, next) {
-  Friend.find({})
+  const pageNumber = req.query.page||1;
+  const pageSize = req.query.pageSize||10;
+
+
+  Friend.paginate({},{page:pageNumber, limit:pageSize})
     .then((response) => {
       res.status(200).send({ status: 200, message: response });
     })
