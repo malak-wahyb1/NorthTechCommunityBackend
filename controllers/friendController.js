@@ -1,6 +1,7 @@
 import Friend from "../models/friendModel.js";
 
 export function addFriend(req, res, next) {
+  
   const friend = new Friend(req.body);
 
   friend
@@ -17,11 +18,31 @@ export function addFriend(req, res, next) {
 }
 
 export function getFriends(req, res, next) {
-  const pageNumber = req.query.page||1;
-  const pageSize = req.query.pageSize||10;
+  const pageNumber = req.query.page || 1;
+  const pageSize = req.query.pageSize || 10;
+  const { id } = req.params;
+  
 
 
-  Friend.paginate({},{page:pageNumber, limit:pageSize})
+
+  Friend.paginate({ friend: { $all: id },accepted:true}, { page: pageNumber, limit: pageSize })
+    .then((response) => {
+      res.status(200).send({ status: 200, message: response });
+    })
+    .catch((error) => {
+      res
+        .status(error.status || 500)
+        .send({ status: error.status, message: error.message });
+      next(error);
+    });
+}
+
+export function requestedFriend(req, res, next) {
+  const pageNumber = req.query.page || 1;
+  const pageSize = req.query.pageSize || 10;
+  const { id } = req.params;
+
+  Friend.paginate({ user: id, accepted: false }, { page: pageNumber, limit: pageSize })
     .then((response) => {
       res.status(200).send({ status: 200, message: response });
     })

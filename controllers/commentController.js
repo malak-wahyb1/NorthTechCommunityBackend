@@ -1,7 +1,6 @@
 import Comment from "../models/commentModel.js";
 
 export function addComment(req, res, next) {
-
   const comment = new Comment(req.body);
   comment
     .save()
@@ -17,9 +16,9 @@ export function addComment(req, res, next) {
 }
 
 export function getComments(req, res, next) {
-  const pageNumber = req.query.page||1;
-  const pageSize = req.query.pageSize||10;
-  Comment.paginate({},{page:pageNumber, limit:pageSize})
+  const pageNumber = req.query.page || 1;
+  const pageSize = req.query.pageSize || 10;
+  Comment.paginate({}, { page: pageNumber, limit: pageSize })
     .then((response) => {
       res.status(200).send({ status: 200, message: response });
     })
@@ -33,7 +32,7 @@ export function getComments(req, res, next) {
 
 export function getComment(req, res, next) {
   const { id } = req.params;
-  Comment.findOne({ _id: id })
+  Comment.find({ post: id })
     .then((response) => {
       if (!response) {
         res.status(404).send({ status: 404, message: "Comment not found" });
@@ -66,6 +65,20 @@ export function deleteComment(req, res, next) {
   const { id } = req.params;
   Comment.findOneAndDelete({ _id: id })
     .then((response) => {
+      res.status(200).send({ status: 200, message: response });
+    })
+    .catch((error) => {
+      res
+        .status(error.status || 500)
+        .send({ status: error.status, message: error.message });
+      next(error);
+    });
+}
+export function getCommentUserPost(req, res, next) {
+  const { id, id2 } = req.params;
+  Comment.find({ user: id, post: id2 })
+    .then((response) => {
+      console.log(response);
       res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {

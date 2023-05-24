@@ -31,7 +31,8 @@ export function getLikes(req, res, next) {
 
 export function deleteLike(req, res, next) {
   const { id } = req.params;
-  Like.findOneAndDelete({ _id: id })
+  const {id2}=req.params;
+  Like.findOneAndDelete({ user: id },{post:id2})
     .then((response) => {
       res.status(200).send({ status: 200, message: response });
     })
@@ -41,4 +42,18 @@ export function deleteLike(req, res, next) {
         .send({ status: error.status, message: error.message });
       next(error);
     });
+}
+export function getLikePost(req, res, next) {
+const { id } = req.params;
+Like.find({post: id}).then((response) => {
+  if(!response) res.status(404).send({ status: 404, message:"0"})
+  res.status(200).send({ status: 200, message: response });
+
+}).catch((error) => {
+
+  res
+  .status(error.status || 500)
+  .send({ status: error.status, message: error.message });
+next(error);
+})
 }

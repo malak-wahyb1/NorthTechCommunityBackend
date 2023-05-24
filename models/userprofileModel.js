@@ -8,9 +8,7 @@ const profileSchema = new Schema(
       type: String,
       max: [400, "max about is 400 characters"],
     },
-    media:{
-      type: String,
-    },
+    
     date: {
       type: Date,
     },

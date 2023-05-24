@@ -2,25 +2,31 @@ import User from "../models/userModel.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
-export function addUser(req, res, next) {
-  const user = new User(req.body);
-  user
+export async function addUser(req, res, next) {
+  const model = new User(req.body);
+  model
     .save()
     .then((response) => {
-      return res.status(200).send({ status: 200, message: response });
-    })
-    .catch((error) => {
-      res
-        .status(error.status || 500)
-        .send({ status: error.status, message: error.message });
-      next(error);
+      const token = jwt.sign(
+        { id: response._id, email: response.email },
+        process.env.JWT_KEY,
+        { expiresIn: 3000 }
+      );
+      res.cookie("jwt", token, {
+        httpOnly: true,
+        maxAge: 3000 * 1000,
+      });
+      return res.status(200).send({ status: 200, message: response, token });
+    }).catch((error) => {
+      res.send({ status: error.status, message: error.message });
+
     });
 }
 
 export function getUsers(req, res, next) {
-  const pageNumber = req.query.page||1;
-  const pageSize = req.query.pageSize||10;
-  User.paginate({},{page:pageNumber, limit:pageSize})
+  const pageNumber = req.query.page || 1;
+  const pageSize = req.query.pageSize || 10;
+  User.paginate({}, { page: pageNumber, limit: pageSize })
     .then((response) => {
       res.status(200).send({ status: 200, message: response });
     })
@@ -51,15 +57,15 @@ export function getUser(req, res, next) {
 
 export function editUser(req, res, next) {
   const { id } = req.params;
- if(req.body.password){
-      const password={}
-  bcrypt.genSalt(10).then((salt) =>
-          bcrypt.hash(req.body.password, salt).then((hashPassword) => {
-           password.password= hashPassword;
-            return User.findByIdAndUpdate({_id:id}, {$set:password});
-          })
-        );
- }
+  if (req.body.password) {
+    const password = {};
+    bcrypt.genSalt(10).then((salt) =>
+      bcrypt.hash(req.body.password, salt).then((hashPassword) => {
+        password.password = hashPassword;
+        return User.findByIdAndUpdate({ _id: id }, { $set: password });
+      })
+    );
+  }
 
   User.findOneAndUpdate({ _id: id }, req.body)
     .then((response) => {
@@ -94,30 +100,32 @@ export function loginUser(req, res, next) {
       if (!admin) {
         return res.status(404).json({ message: "Invalid user" });
       }
-      bcrypt.compare(userLoggingIn.password, admin.password)
-      .then((isCorrect)=>{
-        if(isCorrect) {
-      const token = jwt.sign(
-        { id: admin._id, email: admin.email },
-        process.env.JWT_KEY,
-        { expiresIn: 3000 }
-      );
+      bcrypt
+        .compare(userLoggingIn.password, admin.password)
+        .then((isCorrect) => {
+          if (isCorrect) {
+            const token = jwt.sign(
+              { id: admin._id, email: admin.email },
+              process.env.JWT_KEY,
+              { expiresIn: 3000 }
+            );
 
-      res.cookie("jwt", token, {
-        httpOnly: true,
-        maxAge: 3000 * 1000,
-      });
+            res.cookie("jwt", token, {
+              httpOnly: true,
+              maxAge: 3000 * 1000,
+            });
 
-      return res.status(201).json({
-        message: "user successfully Logged in",
-        user: admin,
-        token,
-      });}else if(!isCorrect){
-        return(
-          res.status(401).send({status:401,message:"you are not an admin"})
-        )
-      }
-      })
+            return res.status(201).json({
+              message: "user successfully Logged in",
+              user: admin,
+              token,
+            });
+          } else if (!isCorrect) {
+            return res
+              .status(401)
+              .send({ status: 401, message: "please enter password" });
+          }
+        });
     })
     .catch((error) => {
       return res.status(error.status || 500).json({
