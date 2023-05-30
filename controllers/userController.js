@@ -137,7 +137,7 @@ console.log(req.params)
   User.findOneAndUpdate({_id:followId},{
     $push:{followers:req.body.senderId}
   },{new:true}).then((user) => {
-User.findOneAndDelete({_id:senderId},{
+User.findOneAndUpdate({_id:senderId},{
   $push:{following:req.body.followId}
   },{new:true}).then((users)=>{
     res.send(users)
@@ -152,7 +152,7 @@ export function  unfollow(req,res,next){
   User.findOneAndUpdate(req.body.unfollowId,{
     $pull:{followers:req.senderId}
   },{new:true}).then((user) => {
-User.findOneAndDelete(req.body.senderId,{
+User.findOneUpdate(req.body.senderId,{
   $pull:{following:req.body.unfollowId}
   },{new:true}).then((users)=>{
     res.send(users)
