@@ -24,9 +24,8 @@ export async function addUser(req, res, next) {
 }
 
 export function getUsers(req, res, next) {
-  const pageNumber = req.query.page || 1;
-  const pageSize = req.query.pageSize || 10;
-  User.paginate({}, { page: pageNumber, limit: pageSize })
+
+  User.find({})
     .then((response) => {
       res.status(200).send({ status: 200, message: response });
     })
@@ -48,9 +47,7 @@ export function getUser(req, res, next) {
       res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
-      res
-        .status(error.status || 500)
-        .send({ status: error.status, message: error.message });
+
       next(error);
     });
 }
@@ -67,7 +64,7 @@ export function editUser(req, res, next) {
     );
   }
 
-  User.findOneAndUpdate({ _id: id }, req.body)
+  User.findOneAndUpdate({ _id: id }, req.body,{new:true})
     .then((response) => {
       res.status(200).send({ status: 200, message: response });
     })
@@ -133,4 +130,36 @@ export function loginUser(req, res, next) {
         message: error.message,
       });
     });
+}
+export function follow(req,res,next){
+  const {followId,senderId}=req.params
+console.log(req.params)
+  User.findOneAndUpdate({_id:followId},{
+    $push:{followers:req.body.senderId}
+  },{new:true}).then((user) => {
+User.findOneAndDelete({_id:senderId},{
+  $push:{following:req.body.followId}
+  },{new:true}).then((users)=>{
+    res.send(users)
+  }).catch((error) => {
+    next(error);
+  })
+}).catch((error) => {
+    next(error);
+  })
+}
+export function  unfollow(req,res,next){
+  User.findOneAndUpdate(req.body.unfollowId,{
+    $pull:{followers:req.senderId}
+  },{new:true}).then((user) => {
+User.findOneAndDelete(req.body.senderId,{
+  $pull:{following:req.body.unfollowId}
+  },{new:true}).then((users)=>{
+    res.send(users)
+  }).catch((error) => {
+    next(error);
+  })
+}).catch((error) => {
+    next(error);
+  })
 }

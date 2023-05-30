@@ -5,6 +5,7 @@ const postSchema = new Schema(
   {
     media: {
       type: String,
+     
     },
     description: {
       type: String,
@@ -13,6 +14,7 @@ const postSchema = new Schema(
     user: {
       type: Schema.Types.ObjectId,
       ref: "User",
+      required:true
     },
   },
   {

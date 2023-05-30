@@ -1,5 +1,5 @@
 import Event from "../models/eventModel.js";
-
+import fs from'fs'
 export function addEvent(req, res, next) {
   const event = new Event(req.body);
   event
@@ -20,7 +20,7 @@ export function getEvents(req, res, next) {
   const pageSize = req.query.pageSize||10;
   const search = req.query.search||"";
   
-  Event.paginate({event_name:{$regex:search}},{page:pageNumber, limit:pageSize})
+  Event.paginate({},{page:pageNumber, limit:pageSize})
     .then((response) => {
       res.status(200).send({ status: 200, message: response });
     })
@@ -51,7 +51,7 @@ export function getEvent(req, res, next) {
 
 export function editEvent(req, res, next) {
   const { id } = req.params;
-  Event.findOneAndUpdate({ _id: id }, req.body)
+  Event.findOneAndUpdate({ _id: id },{new:true}, req.body)
     .then((response) => {
       if(!response) res.status(404).send({ status: 404, message:"not found"})
       if (req.body.media) fs.unlinkSync(response.media);

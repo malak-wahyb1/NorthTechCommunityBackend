@@ -1,45 +1,56 @@
-import mongoosePaginate from 'mongoose-paginate-v2'
-import mongoose from "mongoose";
-const { Schema, model } = mongoose;
-import bcrypt from 'bcrypt'
-import uniqueValidator from "mongoose-unique-validator";
+import mongoosePaginate from 'mongoose-paginate-v2';
+import mongoose from 'mongoose';
+const { Schema, models, model } = mongoose;
+import bcrypt from 'bcrypt';
+import uniqueValidator from 'mongoose-unique-validator';
 
 const userSchema = new Schema(
-{
-first_name: {
-type: String,
-},
-last_name: {
-type: String,
-},
-email: {
-type: String,
-unique: true,
-},
-media:{
-  type: String,
-  default:
-    "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
-},
-phone: {
-type: String,
- 
-},
-password: {
-type: String,
-},
-},
-{
-timestamps: {
-createdAt: "created_at",
-updatedAt: "updated_at",
-},
-versionKey: false,
-}
+  {
+    first_name: {
+      type: String,
+    },
+    last_name: {
+      type: String,
+    },
+    email: {
+      type: String,
+      unique: true,
+    },
+    media: {
+      type: String,
+      default: 'uploads/media-default.jpg',
+    },
+    phone: {
+      type: String,
+    },
+    password: {
+      type: String,
+    },
+    followers: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+      },
+    ],
+    following: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+      },
+    ],
+  },
+  {
+    timestamps: {
+      createdAt: 'created_at',
+      updatedAt: 'updated_at',
+    },
+    versionKey: false,
+  }
 );
-userSchema.pre("save", async function (next) {
+
+userSchema.pre('save', async function (next) {
   try {
-    if (!this.isModified("password")) {
+    if (!this.isModified('password')) {
       return next();
     }
 
@@ -53,8 +64,14 @@ userSchema.pre("save", async function (next) {
   }
 });
 
-userSchema.plugin(uniqueValidator);
-userSchema.plugin(mongoosePaginate)
+userSchema.pre(['find', 'findOne'], function () {
+  this.populate(['followers', 'following']);
+});
 
-const User = model("User", userSchema);
+// Check if the User model already exists
+const User = models.User || model('User', userSchema);
+
+userSchema.plugin(uniqueValidator);
+userSchema.plugin(mongoosePaginate);
+
 export default User;

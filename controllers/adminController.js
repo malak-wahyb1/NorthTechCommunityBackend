@@ -3,9 +3,13 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 export function addAdmin(req, res, next) {
   const admin = new Admin(req.body);
+  if(!req.body){
+    res.status(404).send({message:"Please enter a valid admin"})
+  }
   admin
     .save()
     .then((response) => {
+ 
       return res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
@@ -17,10 +21,8 @@ export function addAdmin(req, res, next) {
 }
 
 export function getAdmins(req, res, next) {
-  const pageNumber = req.query.page||1;
-  const pageSize = req.query.pageSize||10;
-  const search = req.query.search||"";
-  Admin.paginate({username:{$regex:search}},{page:pageNumber, limit:pageSize})
+ 
+  Admin.find({})
     .then((admins) => {
       res.status(200).send({ status: 200, message: admins });
     })

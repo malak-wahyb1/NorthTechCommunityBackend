@@ -4,10 +4,14 @@ const { Schema, model } = mongoose;
 
 const friendSchema = new Schema(
   {
-    friend:[{
+    friend:{
       type:Schema.Types.ObjectId,
       ref:"User",
-    }],
+    },
+    sender:{
+      type:Schema.Types.ObjectId,
+      ref:"User",
+    },
     accepted:{
       type:Boolean,
       default:false,
@@ -22,7 +26,7 @@ const friendSchema = new Schema(
   }
 );
 friendSchema.pre(["find", "findOne"], function () {
-  this.populate(["friend"]);
+  this.populate(["friend","sender"]);
 });
 friendSchema.plugin(mongoosePaginate)
 const Friend = model("Friend", friendSchema);

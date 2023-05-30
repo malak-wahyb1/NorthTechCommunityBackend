@@ -15,11 +15,11 @@ const eventSchema = new Schema(
       type: String,
     },
    
-    date_time_start:{
+    date:{
       type:Date
     }, 
-    date_time_end:{
-      type:Date
+    time:{
+      type:String
     },
     speaker:[{
       type:Schema.Types.ObjectId,
@@ -29,12 +29,13 @@ const eventSchema = new Schema(
       type:Schema.Types.ObjectId,
       ref:'User'
     }],
-    description:{
-      type:String,
-      max:[300,"Full"]
-    },
+  
     media:{
       type:String,
+    },
+    posted:{
+      type:Schema.Types.ObjectId,
+      ref:'User'
     }
   },
   {
@@ -47,7 +48,7 @@ const eventSchema = new Schema(
   }
 );
 eventSchema.pre(['find','findOne'],function(){
-  this.populate(['attend','speaker']);
+  this.populate(['attend','speaker',"posted"]);
     })
     eventSchema.plugin(mongoosePaginate)
 const Event=model("Event",eventSchema);
