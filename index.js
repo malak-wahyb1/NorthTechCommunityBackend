@@ -61,7 +61,7 @@ const serverBack = app.listen(
 const io = new Server(serverBack, {
   pingTimeout: 60000,
   cors: {
-    origin: "https://northtechcommunitycoditech.onrender.com",
+    origin: "http://localhost:3000",
   },
 });
 io.on("connection", (socket) => {
