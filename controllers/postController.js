@@ -16,18 +16,16 @@ export function addPost(req, res, next) {
     });
 }
 
-export function getPosts(req, res, next) {
-
-  
+export function getPosts(req, res, next) {  
   Post.find({})
     .then((response) => {
       res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
       res
-        .status(error.status || 500)
-        .send({ status: error.status, message: error.message });
-      next(error);
+        .status(500)
+        .send({ status:500, message: "try again" });
+      
     });
 }
 

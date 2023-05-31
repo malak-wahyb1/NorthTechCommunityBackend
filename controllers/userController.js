@@ -128,9 +128,9 @@ export function loginUser(req, res, next) {
         });
     })
     .catch((error) => {
-      return res.status(error.status || 500).json({
-        status: error.status,
-        message: error.message,
+      return res.status(500).send({
+        status: 500,
+        message:"try again",
       });
     });
 }
