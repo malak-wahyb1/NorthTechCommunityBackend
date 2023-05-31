@@ -65,7 +65,11 @@ const serverBack = app.listen(
 );
 const io = new Server(serverBack, {
   pingTimeout: 60000,
+  cors: {
+    origin: "*",
+  },
 });
+
 io.on("connection", (socket) => {
   console.log("connected to socket.io");
   socket.on("setup", (userData) => {
