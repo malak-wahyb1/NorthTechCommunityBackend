@@ -24,14 +24,14 @@ dotenv.config();
 const PORT = process.env.PORT || 5000;
 connectDB();
 
-const app = new express();
+const app = express();
 
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
-app.use(bodyParser.json());
+
 app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
+app.use(bodyParser.json());
 app.use("/uploads", express.static("./uploads"));
 
 app.get("/", (req, res) => {
@@ -39,7 +39,6 @@ app.get("/", (req, res) => {
 });
 
 app.use(cors());
-
 app.options('/post', cors());
 
 app.use("/admin", adminRouter);
@@ -62,8 +61,9 @@ app.use("*", (req, res) => {
 
 const serverBack = app.listen(
   PORT,
-  console.log(`server listening on port http://localhost:${PORT}`)
+  console.log(`Server listening on port http://localhost:${PORT}`)
 );
+
 const io = new Server(serverBack, {
   pingTimeout: 60000,
   cors: {
@@ -72,10 +72,9 @@ const io = new Server(serverBack, {
 });
 
 io.on("connection", (socket) => {
-  console.log("connected to socket.io");
+  console.log("Connected to socket.io");
   socket.on("setup", (userData) => {
     socket.join(userData._id);
-
     socket.emit("connected");
   });
   socket.on("join chat", (room) => {
@@ -92,16 +91,18 @@ io.on("connection", (socket) => {
     });
   });
 });
-// create and error object,catch 404 and forward to error handler
-app.use(function (req, res, next) {
+
+// Error handlers
+
+app.use((req, res, next) => {
   next(createError(404));
 });
 
-// error handler
-app.use(function (err, req, res, next) {
+app.use((err, req, res, next) => {
   console.log(err);
   res.status(err.status || 500).send({
     success: false,
     message: err.message,
   });
 });
+
