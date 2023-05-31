@@ -36,7 +36,13 @@ app.use("/uploads", express.static("./uploads"));
 app.get("/", (req, res) => {
   res.send("API is Running");
 });
-app.use(cors());
+
+app.use(
+  cors({
+    origin: "http://localhost:3000", // Replace with your frontend's URL
+  })
+);
+
 app.use("/admin", adminRouter);
 app.use("/user", userRouter);
 app.use("/profile", profileRouter);
@@ -50,6 +56,7 @@ app.use("/event", eventRouter);
 app.use("/workspace", workspaceRouter);
 app.use("/chat", chatRouter);
 app.use("/message", messageRouter);
+
 app.use("*", (req, res) => {
   res.status(404).send({ message: "404 Not Found" });
 });
@@ -60,9 +67,6 @@ const serverBack = app.listen(
 );
 const io = new Server(serverBack, {
   pingTimeout: 60000,
-  cors: {
-    origin: "http://localhost:3000",
-  },
 });
 io.on("connection", (socket) => {
   console.log("connected to socket.io");
