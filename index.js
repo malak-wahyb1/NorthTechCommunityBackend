@@ -39,7 +39,7 @@ app.get("/", (req, res) => {
 
 app.use(cors());
 
-
+app.options('/post', cors());
 
 app.use("/admin", adminRouter);
 app.use("/user", userRouter);
