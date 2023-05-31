@@ -17,6 +17,7 @@ import chatRouter from "./routes/chatRoute.js";
 import messageRouter from "./routes/messageRoute.js";
 import bodyParser from "body-parser";
 import cors from "cors";
+import createError from "http-errors";
 import { Server } from "socket.io";
 
 dotenv.config();
@@ -95,10 +96,11 @@ io.on("connection", (socket) => {
 app.use(function (req, res, next) {
   next(createError(404));
 });
+
 // error handler
 app.use(function (err, req, res, next) {
-  console.log(err)
-  res.status(500).send({
+  console.log(err);
+  res.status(err.status || 500).send({
     success: false,
     message: err.message,
   });
