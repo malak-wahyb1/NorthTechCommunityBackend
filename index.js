@@ -38,7 +38,7 @@ app.get("/", (req, res) => {
 });
 
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://northtechcommunitycoditech.onrender.com'],
+  origin: ['https://northtechcommunitycoditech.onrender.com'],
 
 }));
 
