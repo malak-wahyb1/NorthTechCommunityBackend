@@ -12,9 +12,7 @@ export function addPost(req, res, next) {
       return res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
-      res
-        .status(error.status || 500)
-        .send({ status: error.status, message: error.message });
+      
       next(error);
     });
 }
@@ -29,9 +27,7 @@ export function getPosts(req, res, next) {
       res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
-      res
-        .status(error.status || 500)
-        .send({ status: error.status, message: error.message });
+      
       next(error);
     });
 }
@@ -47,9 +43,7 @@ export function getPost(req, res, next) {
       res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
-      res
-        .status(error.status || 500)
-        .send({ status: error.status, message: error.message });
+      
       next(error);
     });
 }
@@ -64,9 +58,7 @@ export function editPost(req, res, next) {
       res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
-      res
-        .status(error.status || 500)
-        .send({ status: error.status, message: error.message });
+      
       next(error);
     });
 }
@@ -79,9 +71,7 @@ export function deletePost(req, res, next) {
       res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
-      res
-        .status(error.status || 500)
-        .send({ status: error.status, message: error.message });
+     
       next(error);
     });
 }
@@ -96,9 +86,7 @@ export function getUserPost(req,res,next){
       res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
-      res
-        .status(error.status || 500)
-        .send({ status: error.status, message: error.message });
+      
       next(error);
     });
 
