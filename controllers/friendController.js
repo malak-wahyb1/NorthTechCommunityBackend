@@ -9,10 +9,7 @@ export function addFriend(req, res, next) {
       return res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
-      res
-        .status(error.status || 500)
-        .send({ status: error.status, message: error.message });
-      next(error);
+     next(error)
     });
 }
 
@@ -28,10 +25,7 @@ export function getFriends(req, res, next) {
       res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
-      res
-        .status(error.status || 500)
-        .send({ status: error.status, message: error.message });
-      next(error);
+     next(error)
     });
 }
 
@@ -48,10 +42,7 @@ export function requestedFriend(req, res, next) {
       res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
-      res
-        .status(error.status || 500)
-        .send({ status: error.status, message: error.message });
-      next(error);
+     next(error)
     });
 }
 
@@ -78,10 +69,7 @@ export function getAllFriend(req, res, next) {
       res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
-      res
-        .status(error.status || 500)
-        .send({ status: error.status, message: error.message });
-      next(error);
+     next(error)
     });
 }
 
@@ -93,10 +81,7 @@ export function editFriend(req, res, next) {
       res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
-      res
-        .status(error.status || 500)
-        .send({ status: error.status, message: error.message });
-      next(error);
+     next(error)
     });
 }
 
@@ -107,10 +92,7 @@ export function deleteFriend(req, res, next) {
       res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
-      res
-        .status(error.status || 500)
-        .send({ status: error.status, message: error.message });
-      next(error);
+     next(error)
     });
 }
 
@@ -120,6 +102,6 @@ const {user}=req.params;
 const {friend}=req.params;
 Friend.findOne({friend:friend,friend:user}).then((friend) => {
   res.status(200).send({message:friend})
-}).catch((err) => {console.log(err)});
+}).catch((err) => {next(err)});
 
 }

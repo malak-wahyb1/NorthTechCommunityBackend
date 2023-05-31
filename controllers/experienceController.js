@@ -8,10 +8,7 @@ export function addExperience(req, res, next) {
       return res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
-      res
-        .status(error.status || 500)
-        .send({ status: error.status, message: error.message });
-      next(error);
+     next(error)
     });
 }
 
@@ -23,10 +20,7 @@ export function getExperiences(req, res, next) {
       res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
-      res
-        .status(error.status || 500)
-        .send({ status: error.status, message: error.message });
-      next(error);
+     next(error)
     });
 }
 
@@ -40,10 +34,7 @@ export function getExperience(req, res, next) {
       res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
-      res
-        .status(error.status || 500)
-        .send({ status: error.status, message: error.message });
-      next(error);
+     next(error)
     });
 }
 
@@ -54,10 +45,7 @@ export function editExperience(req, res, next) {
       res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
-      res
-        .status(error.status || 500)
-        .send({ status: error.status, message: error.message });
-      next(error);
+     next(error)
     });
 }
 
@@ -68,9 +56,6 @@ export function deleteExperience(req, res, next) {
       res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
-      res
-        .status(error.status || 500)
-        .send({ status: error.status, message: error.message });
-      next(error);
+     next(error)
     });
 }

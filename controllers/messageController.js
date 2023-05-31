@@ -29,7 +29,7 @@ export function sendMessage(req, res, next) {
         
         })
         .catch((error) => {
-          console.error(error);
+         next(error);
         });
     })
     .catch((err) => {
@@ -47,10 +47,7 @@ export function allMessages(req, res, next) {
       res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
-      res
-        .status(error.status || 500)
-        .send({ status: error.status, message: error.message });
-      next(error);
+     next(error)
     });
 }
 

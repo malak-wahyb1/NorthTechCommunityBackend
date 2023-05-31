@@ -8,10 +8,8 @@ export function addComment(req, res, next) {
       return res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
-      res
-        .status(error.status || 500)
-        .send({ status: error.status, message: error.message });
-      next(error);
+     next(error)
+    
     });
 }
 
@@ -23,10 +21,8 @@ export function getComments(req, res, next) {
       res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
-      res
-        .status(error.status || 500)
-        .send({ status: error.status, message: error.message });
-      next(error);
+     next(error)
+ 
     });
 }
 
@@ -40,10 +36,8 @@ export function getComment(req, res, next) {
       res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
-      res
-        .status(error.status || 500)
-        .send({ status: error.status, message: error.message });
-      next(error);
+     next(error)
+   
     });
 }
 
@@ -54,10 +48,8 @@ export function editComment(req, res, next) {
       res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
-      res
-        .status(error.status || 500)
-        .send({ status: error.status, message: error.message });
-      next(error);
+     next(error)
+   
     });
 }
 
@@ -68,10 +60,8 @@ export function deleteComment(req, res, next) {
       res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
-      res
-        .status(error.status || 500)
-        .send({ status: error.status, message: error.message });
-      next(error);
+     next(error)
+  
     });
 }
 export function getCommentUserPost(req, res, next) {
@@ -82,9 +72,7 @@ export function getCommentUserPost(req, res, next) {
       res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
-      res
-        .status(error.status || 500)
-        .send({ status: error.status, message: error.message });
-      next(error);
+     next(error)
+    
     });
 }

@@ -18,7 +18,7 @@ export async function addUser(req, res, next) {
       });
       return res.status(200).send({ status: 200, message: response, token });
     }).catch((error) => {
-      res.send({ status: error.status, message: error.message });
+      next(error);
 
     });
 }
@@ -32,9 +32,7 @@ export function getUsers(req, res, next) {
         res.status(200).send({ status: 200, message: response });
       })
       .catch((error) => {
-        res
-          .status(error.status || 500)
-          .send({ status: error.status, message: error.message });
+      
         next(error);
       });
   
@@ -72,10 +70,7 @@ export function editUser(req, res, next) {
       res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
-      res
-        .status(error.status || 500)
-        .send({ status: error.status, message: error.message });
-      next(error);
+     next(error)
     });
 }
 
@@ -86,10 +81,7 @@ export function deleteUser(req, res, next) {
       res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
-      res
-        .status(error.status || 500)
-        .send({ status: error.status, message: error.message });
-      next(error);
+     next(error)
     });
 }
 
@@ -128,10 +120,7 @@ export function loginUser(req, res, next) {
         });
     })
     .catch((error) => {
-      return res.status(500).send({
-        status: 500,
-        message:"try again",
-      });
+     next(error);
     });
 }
 export function follow(req,res,next){

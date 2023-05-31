@@ -8,10 +8,7 @@ export function addLike(req, res, next) {
       return res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
-      res
-        .status(error.status || 500)
-        .send({ status: error.status, message: error.message });
-      next(error);
+     next(error)
     });
 }
 
@@ -21,10 +18,7 @@ export function getLikes(req, res, next) {
       res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
-      res
-        .status(error.status || 500)
-        .send({ status: error.status, message: error.message });
-      next(error);
+     next(error)
     });
 }
 
@@ -37,10 +31,7 @@ export function deleteLike(req, res, next) {
       res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
-      res
-        .status(error.status || 500)
-        .send({ status: error.status, message: error.message });
-      next(error);
+     next(error)
     });
 }
 export function getLikePost(req, res, next) {

@@ -22,9 +22,7 @@ export function getPosts(req, res, next) {
       res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
-      res
-        .status(500)
-        .send({ status:500, message: "try again" });
+     next(error);
       
     });
 }
@@ -112,7 +110,6 @@ export async function search(req, res, next) {
 
     res.json(results);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal server error" });
+    next(error);
   }
 }

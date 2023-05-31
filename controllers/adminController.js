@@ -13,9 +13,7 @@ export function addAdmin(req, res, next) {
       return res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
-      res
-        .status(error.status || 500)
-        .send({ status: error.status, message: error.message });
+     
       next(error);
     });
 }
@@ -27,9 +25,7 @@ export function getAdmins(req, res, next) {
       res.status(200).send({ status: 200, message: admins });
     })
     .catch((error) => {
-      res
-        .status(error.status || 500)
-        .send({ status: error.status, message: error.message });
+      
       next(error);
     });
 }
@@ -44,9 +40,7 @@ export function getAdmin(req, res, next) {
       res.status(200).send({ status: 200, message: admin });
     })
     .catch((error) => {
-      res
-        .status(error.status || 500)
-        .send({ status: error.status, message: error.message });
+     
       next(error);
     });
 }
@@ -94,9 +88,7 @@ export function editAdmin(req, res, next) {
       res.status(200).send({ status: 200, message });
     })
     .catch((error) => {
-      res
-        .status(error.status || 500)
-        .send({ status: error.status, message: error.message });
+     
       next(error);
     });
 }
@@ -108,9 +100,7 @@ export function deleteAdmin(req, res, next) {
       res.status(200).send({ status: 200, message: admin });
     })
     .catch((error) => {
-      res
-        .status(error.status || 500)
-        .send({ status: error.status, message: error.message });
+      
       next(error);
     });
 }
@@ -148,9 +138,6 @@ export function loginAdmin(req, res, next) {
     })
     })
     .catch((error) => {
-      return res.status(error.status || 500).json({
-        status: error.status,
-        message: error.message,
-      });
+     next(error)
     });
 }
