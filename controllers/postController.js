@@ -18,11 +18,9 @@ export function addPost(req, res, next) {
 }
 
 export function getPosts(req, res, next) {
-  const pageNumber = req.query.page || 1;
-  const pageSize = req.query.pageSize || 10;
-  const sortOptions = { createdAt: -1 }; // Sort by the "createdAt" field in descending order
+ 
 
-  Post.paginate({}, { page: pageNumber, limit: pageSize, sort: sortOptions })
+  Post.find({})
     .then((response) => {
       res.status(200).send({ status: 200, message: response });
     })
