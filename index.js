@@ -37,10 +37,7 @@ app.get("/", (req, res) => {
   res.send("API is Running");
 });
 
-app.use(cors({
-  origin: ['https://northtechcommunitycoditech.onrender.com'],
-
-}));
+app.use(cors());
 
 
 
