@@ -40,7 +40,7 @@ const eventSchema = new Schema(
   }
 );
 eventSchema.pre(["find", "findOne"], function () {
-  this.populate(["attend", "speaker", "posted"]);
+  this.populate([ "posted"]);
 });
 eventSchema.plugin(mongoosePaginate);
 const Event = model("Event", eventSchema);
