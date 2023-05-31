@@ -31,9 +31,9 @@ export function getUsers(req, res, next) {
     })
     .catch((error) => {
       res
-        .status(error.status || 500)
-        .send({ status: error.status, message: error.message });
-      next(error);
+        .status( 500)
+        .send({ status: 500, message: "try again" });
+    
     });
 }
 

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import mongoosePaginate from 'mongoose-paginate-v2'
+import mongoosePaginate from "mongoose-paginate-v2";
 const { Schema, model } = mongoose;
 
 const eventSchema = new Schema(
@@ -7,39 +7,31 @@ const eventSchema = new Schema(
     event_name: {
       type: String,
     },
-    event_links:[{
+    event_links: [
+      {
+        type: String,
+      },
+    ],
+    address: {
       type: String,
-     
-    }],
-    address:{
+    },
+
+    date: {
+      type: Date,
+    },
+    time: {
       type: String,
     },
-   
-    date:{
-      type:Date
-    }, 
-    time:{
-      type:String
+
+    media: {
+      type: String,
     },
-    speaker:[{
-      type:Schema.Types.ObjectId,
-      ref:'User'
-    }],
-    attend:[{
-      type:Schema.Types.ObjectId,
-      ref:'User'
-    }],
-  
-    media:{
-      type:String,
+    posted: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
     },
-    posted:{
-      type:Schema.Types.ObjectId,
-      ref:'User'
-    }
   },
   {
-   
     timestamps: {
       createdAt: "created_at",
       updatedAt: "updated_at",
@@ -47,9 +39,9 @@ const eventSchema = new Schema(
     versionKey: false,
   }
 );
-eventSchema.pre(['find','findOne'],function(){
-  this.populate(['attend','speaker',"posted"]);
-    })
-    eventSchema.plugin(mongoosePaginate)
-const Event=model("Event",eventSchema);
+eventSchema.pre(["find", "findOne"], function () {
+  this.populate(["attend", "speaker", "posted"]);
+});
+eventSchema.plugin(mongoosePaginate);
+const Event = model("Event", eventSchema);
 export default Event;
