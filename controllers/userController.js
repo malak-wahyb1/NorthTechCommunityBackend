@@ -24,17 +24,20 @@ export async function addUser(req, res, next) {
 }
 
 export function getUsers(req, res, next) {
+  
 
-  User.find({})
-    .then((response) => {
-      res.status(200).send({ status: 200, message: response });
-    })
-    .catch((error) => {
-      res
-        .status( 500)
-        .send({ status: 500, message: "try again" });
-    
-    });
+  
+    User.find({})
+      .then((response) => {
+        res.status(200).send({ status: 200, message: response });
+      })
+      .catch((error) => {
+        res
+          .status(error.status || 500)
+          .send({ status: error.status, message: error.message });
+        next(error);
+      });
+  
 }
 
 export function getUser(req, res, next) {
