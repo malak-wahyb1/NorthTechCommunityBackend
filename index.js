@@ -37,11 +37,10 @@ app.get("/", (req, res) => {
   res.send("API is Running");
 });
 
-app.use(
-  cors({
-    origin: "http://localhost:3000", // Replace with your frontend's URL
-  })
-);
+app.use(cors({
+  origin: "*",
+}));
+
 
 app.use("/admin", adminRouter);
 app.use("/user", userRouter);
