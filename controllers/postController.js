@@ -12,24 +12,21 @@ export function addPost(req, res, next) {
       return res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
-      
       next(error);
     });
 }
 
 export function getPosts(req, res, next) {
- 
-
   Post.find({})
     .then((response) => {
       res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
-      
-      next(error);
+    res
+        .status(error.status || 500)
+        .send({ status: error.status, message: error.message });
     });
 }
-
 
 export function getPost(req, res, next) {
   const { id } = req.params;
@@ -41,14 +38,13 @@ export function getPost(req, res, next) {
       res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
-      
       next(error);
     });
 }
 
 export function editPost(req, res, next) {
   const { id } = req.params;
-  Post.findOneAndUpdate({ _id: id }, req.body,{new:true})
+  Post.findOneAndUpdate({ _id: id }, req.body, { new: true })
     .then((response) => {
       if (!response)
         res.status(404).send({ status: 404, message: "not found" });
@@ -56,7 +52,6 @@ export function editPost(req, res, next) {
       res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
-      
       next(error);
     });
 }
@@ -69,25 +64,25 @@ export function deletePost(req, res, next) {
       res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
-     
       next(error);
     });
 }
-export function getUserPost(req,res,next){
-  const {id}=req.params
+export function getUserPost(req, res, next) {
+  const { id } = req.params;
   const pageNumber = req.query.page || 1;
   const pageSize = req.query.pageSize || 10;
   const sortOptions = { createdAt: -1 }; // Sort by the "createdAt" field in descending order
 
-  Post.paginate({user:id}, { page: pageNumber, limit: pageSize, sort: sortOptions })
+  Post.paginate(
+    { user: id },
+    { page: pageNumber, limit: pageSize, sort: sortOptions }
+  )
     .then((response) => {
       res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
-      
       next(error);
     });
-
 }
 export async function search(req, res, next) {
   try {
@@ -96,7 +91,7 @@ export async function search(req, res, next) {
     const results = {
       admins: await Admin.find({ username: { $regex: search } }),
       events: await Event.find({
-        event_name: { $regex: search}
+        event_name: { $regex: search },
       }),
       posts: await Post.find({
         description: { $regex: search },
