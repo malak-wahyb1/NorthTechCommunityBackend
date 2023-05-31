@@ -38,8 +38,10 @@ app.get("/", (req, res) => {
 });
 
 app.use(cors({
-  origin: "*",
+  origin: ['http://localhost:3000', 'https://northtechcommunitycoditech.onrender.com'],
+
 }));
+
 
 
 app.use("/admin", adminRouter);
