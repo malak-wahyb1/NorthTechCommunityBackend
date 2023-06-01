@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 const { Schema, model } = mongoose;
-import mongoosePaginate from 'mongoose-paginate-v2'
 const postSchema = new Schema(
   {
     media: {
@@ -28,7 +27,7 @@ const postSchema = new Schema(
 postSchema.pre(["find", "findOne"], function () {
   this.populate( "user");
 });
-postSchema.plugin(mongoosePaginate)
+
 
 const Post = model("Post", postSchema);
 export default Post;
