@@ -68,13 +68,11 @@ export function deletePost(req, res, next) {
 }
 export function getUserPost(req, res, next) {
   const { id } = req.params;
-  const pageNumber = req.query.page || 1;
-  const pageSize = req.query.pageSize || 10;
-  const sortOptions = { createdAt: -1 }; // Sort by the "createdAt" field in descending order
 
-  Post.paginate(
+
+  Post.find(
     { user: id },
-    { page: pageNumber, limit: pageSize, sort: sortOptions }
+    
   )
     .then((response) => {
       res.status(200).send({ status: 200, message: response });
