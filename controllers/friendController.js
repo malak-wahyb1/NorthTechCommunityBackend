@@ -19,8 +19,8 @@ export function getFriends(req, res, next) {
 
   Friend.find( Friend.find({
     $or: [
-      { user: loggedInUserId, accepted: true },
-      { friend: loggedInUserId, accepted: true }
+      { user: id, accepted: true },
+      { friend: id, accepted: true }
     ]
   }))
     .then((response) => {
