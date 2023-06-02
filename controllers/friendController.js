@@ -9,7 +9,7 @@ export function addFriend(req, res, next) {
       return res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
-     next(error)
+      next(error);
     });
 }
 
@@ -18,31 +18,24 @@ export function getFriends(req, res, next) {
   const pageSize = req.query.pageSize || 10;
   const { id } = req.params;
 
-  Friend.find(
-    { friend: { $all: id }, accepted: true }
-  )
+  Friend.find({ friend: { $all: id }, accepted: true })
     .then((response) => {
       res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
-     next(error)
+      next(error);
     });
 }
 
 export function requestedFriend(req, res, next) {
-  const pageNumber = req.query.page || 1;
-  const pageSize = req.query.pageSize || 10;
   const { id } = req.params;
 
-  Friend.paginate(
-    { friend:{$all:id}, accepted: false },
-    { page: pageNumber, limit: pageSize }
-  )
+  Friend.find({user:id})
     .then((response) => {
       res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
-     next(error)
+      next(error);
     });
 }
 
@@ -56,23 +49,20 @@ export function getFriend(req, res, next) {
       res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
-
       next(error);
     });
 }
 
 export function getAllFriend(req, res, next) {
   const { id } = req.params;
-  Friend.findOne({ friend:{ $all: id } })
+  Friend.findOne({ friend: { $all: id } })
     .then((response) => {
-   
       res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
-     next(error)
+      next(error);
     });
 }
-
 
 export function editFriend(req, res, next) {
   const { id } = req.params;
@@ -81,7 +71,7 @@ export function editFriend(req, res, next) {
       res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
-     next(error)
+      next(error);
     });
 }
 
@@ -92,16 +82,18 @@ export function deleteFriend(req, res, next) {
       res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
-     next(error)
+      next(error);
     });
 }
 
 export function check(req, res, next) {
-
-const {user}=req.params;
-const {friend}=req.params;
-Friend.findOne({friend:friend,friend:user}).then((friend) => {
-  res.status(200).send({message:friend})
-}).catch((err) => {next(err)});
-
+  const { user } = req.params;
+  const { friend } = req.params;
+  Friend.findOne({ friend: friend, friend: user })
+    .then((friend) => {
+      res.status(200).send({ message: friend });
+    })
+    .catch((err) => {
+      next(err);
+    });
 }
