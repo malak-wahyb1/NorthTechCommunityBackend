@@ -14,11 +14,15 @@ export function addFriend(req, res, next) {
 }
 
 export function getFriends(req, res, next) {
-  const pageNumber = req.query.page || 1;
-  const pageSize = req.query.pageSize || 10;
+
   const { id } = req.params;
 
-  Friend.find({ friend: { $all: id }, accepted: true })
+  Friend.find( Friend.find({
+    $or: [
+      { user: loggedInUserId, accepted: true },
+      { friend: loggedInUserId, accepted: true }
+    ]
+  }))
     .then((response) => {
       res.status(200).send({ status: 200, message: response });
     })
