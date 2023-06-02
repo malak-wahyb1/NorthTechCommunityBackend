@@ -29,8 +29,7 @@ export function getFriends(req, res, next) {
 
 export function requestedFriend(req, res, next) {
   const { id } = req.params;
-
-  Friend.find({user:id})
+  Friend.find({user:id},{accepted:false})
     .then((response) => {
       res.status(200).send({ status: 200, message: response });
     })
