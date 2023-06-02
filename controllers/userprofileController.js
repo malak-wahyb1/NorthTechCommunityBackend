@@ -26,7 +26,7 @@ export function getProfiles(req, res, next) {
 
 export function getProfile(req, res, next) {
   const { id } = req.params;
-  Profile.findOne({ _id: id })
+  Profile.findOne({ user: id })
     .then((response) => {
       if (!response) {
         res.status(404).send({ status: 404, message: "user not found" });
