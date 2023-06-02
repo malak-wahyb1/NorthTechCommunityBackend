@@ -26,7 +26,7 @@ const friendSchema = new Schema(
   }
 );
 friendSchema.pre(["find", "findOne"], function () {
-  this.populate(["friend","sender"]);
+  this.populate(["friend","user"]);
 });
 friendSchema.plugin(mongoosePaginate)
 const Friend = model("Friend", friendSchema);
