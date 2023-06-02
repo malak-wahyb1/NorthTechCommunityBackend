@@ -8,10 +8,10 @@ const friendSchema = new Schema(
       type:Schema.Types.ObjectId,
       ref:"User",
     },
-    sender:{
-      type:Schema.Types.ObjectId,
-      ref:"User",
-    },
+   user:{
+    type:Schema.Types.ObjectId,
+    ref:"User",
+   },
     accepted:{
       type:Boolean,
       default:false,
