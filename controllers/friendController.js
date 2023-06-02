@@ -58,7 +58,12 @@ export function getFriend(req, res, next) {
 
 export function getAllFriend(req, res, next) {
   const { id } = req.params;
-  Friend.findOne({ friend: { $all: id } })
+  Friend.find({
+    $or: [
+      { user: id },
+      { friend: id }
+    ]
+  })
     .then((response) => {
       res.status(200).send({ status: 200, message: response });
     })
