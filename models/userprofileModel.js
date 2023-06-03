@@ -4,23 +4,21 @@ const { Schema, model } = mongoose;
 
 const profileSchema = new Schema(
   {
-    about: {
+    Linkedin:{
       type: String,
-      max: [400, "max about is 400 characters"],
     },
-    
-    date: {
-      type: Date,
+    Email:{
+      type: String,
     },
-    website: [{
-   facebook:String,
-   github:String,
-   linkedin:String,
-   instagram:String,
-   youtube:String,
-   twitter:String,
-   gitlab:String,
-    }],
+    Github:{
+      type: String,
+    },
+    Instagram:{
+      type: String,
+    },
+    Twitter:{
+      type: String,
+    },
     user:{
       type:Schema.Types.ObjectId,
       ref:'User'

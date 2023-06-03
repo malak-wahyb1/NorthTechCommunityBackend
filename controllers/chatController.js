@@ -6,7 +6,7 @@ export function accessChat(req, res, next) {
   if (!user1 && !user2) {
     return res.send("enter credentials");
   }
-  Chat.findOne({ user: user1, user: user2 })
+  Chat.findOne({ $or: [{ user: user1, user: user2 }, { user: user2, user: user1 }] })
     .then((chat) => {
       if (chat) {
         res.send(chat);
