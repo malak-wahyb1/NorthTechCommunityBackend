@@ -28,9 +28,7 @@ export function getProfile(req, res, next) {
   const { id } = req.params;
   Profile.findOne({ user: id })
     .then((response) => {
-      if (!response) {
-        res.status(404).send({ status: 404, message: "user not found" });
-      }
+     
       res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
