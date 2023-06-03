@@ -19,6 +19,9 @@ const profileSchema = new Schema(
     Twitter:{
       type: String,
     },
+    Facebook:{
+      type: String,
+    },
     user:{
       type:Schema.Types.ObjectId,
       ref:'User'
