@@ -18,7 +18,7 @@ const userSchema = new Schema(
     },
     media: {
       type: String,
-      default: 'uploads/media-default.jpg',
+      default: 'https://i.ibb.co/zs9JYBD/media-default.png',
     },
     phone: {
       type: String,
