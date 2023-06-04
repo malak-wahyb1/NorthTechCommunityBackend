@@ -38,7 +38,7 @@ export function getProfile(req, res, next) {
 
 export function editProfile(req, res, next) {
   const { id } = req.params;
-  Profile.findOneAndUpdate({ _id: id }, req.body)
+  Profile.findOneAndUpdate({ user: id }, req.body)
     .then((response) => {
       res.status(200).send({ status: 200, message: response });
     })
