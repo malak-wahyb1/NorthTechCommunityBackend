@@ -42,7 +42,7 @@ export function editWorkspace(req, res, next) {
   Workspace.findOneAndUpdate({ _id: id }, req.body)
     .then((response) => {
       if(!response) res.status(404).send({ status: 404, message:"not found"})
-      if (req.body.media) fs.unlinkSync(response.media);
+     
       res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {

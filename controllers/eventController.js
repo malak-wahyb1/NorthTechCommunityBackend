@@ -43,7 +43,7 @@ export function editEvent(req, res, next) {
   Event.findOneAndUpdate({ _id: id },{new:true}, req.body)
     .then((response) => {
       if(!response) res.status(404).send({ status: 404, message:"not found"})
-      if (req.body.media) fs.unlinkSync(response.media);
+     
       res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {

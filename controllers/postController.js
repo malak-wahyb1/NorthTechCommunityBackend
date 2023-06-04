@@ -47,7 +47,7 @@ export function editPost(req, res, next) {
     .then((response) => {
       if (!response)
         res.status(404).send({ status: 404, message: "not found" });
-      if (req.body.media) fs.unlinkSync(response.media);
+     
       res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
@@ -59,7 +59,7 @@ export function deletePost(req, res, next) {
   const { id } = req.params;
   Post.findOneAndDelete({ _id: id })
     .then((response) => {
-      fs.unlinkSync(response.media);
+
       res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
