@@ -55,7 +55,7 @@ export function deleteEvent(req, res, next) {
   const { id } = req.params;
   Event.findOneAndDelete({ _id: id })
     .then((response) => {
-      fs.unlinkSync(response.media);
+
       res.status(200).send({ status: 200, message: response });
     })
     .catch((error) => {
