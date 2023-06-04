@@ -1,28 +1,28 @@
-import axios from "axios";
-
-export default async function (req, res, next) {
-  if (req.file) {
-    const imgbbApiKey = "8bcd9d41626f3d033a74947d3f950fda";
-    const imgbbUploadUrl = "https://api.imgbb.com/1/upload";
-
-    const formData = new FormData();
-    formData.append("image", req.file.buffer);
-
-    try {
-      const response = await axios.post(imgbbUploadUrl, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-        params: {
-          key: imgbbApiKey,
-        },
-      });
-
-      req.body.media = response.data.data.url;
-    } catch (error) {
-      // Handle the error
-      return next(error);
+import multer from "multer";
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/");
+  },
+  filename: (req, file, cb) => {
+    cb(
+      null,
+      file.fieldname +
+        "-" +
+        Date.now() +
+        "." +
+        file.originalname.split(".").pop()
+    );
+  },
+});
+const upload = multer({ storage });
+export default function (req, res, next) {
+  upload.single("media")(req, res, (err) => {
+    if (err) {
+      return next(err);
     }
-  }
-  next();
+    if (req.file) {
+      req.body.media = req.file.path;
+    }
+    next();
+  });
 }
